@@ -1,0 +1,66 @@
+body {
+  --mdc-theme-primary: rgb(52,152,219);
+  --mdc-theme-secondary: rgb(102, 102, 102);
+  --mdc-theme-on-primary: #fff;
+  --mdc-theme-on-secondary: #fff;
+  --mdc-theme-background: #fff;
+  --mdc-theme-text-primary-on-background: #000;
+  --mdc-typography-base: "Benton Sans", Arial, Helvetica, sans-serif;
+  background-color: var(--mdc-theme-background);
+  font-family: "Benton Sans", Arial, Helvetica, sans-serif !important;
+  font-size: 12px;
+  height: 100vh;
+  overflow-y: none;
+}
+
+.mdc-typography {
+  margin: 0;
+}
+
+.mdc-typography, .mdc-typography--headline5 {
+  font-family: "Benton Sans", Arial, Helvetica, sans-serif !important;
+}
+
+.configure-card {
+  width: 100%;
+}
+
+.card-content {
+  height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+.mdc-tab-bar {
+  background-color: rgb(245,245,245);
+  font-size: 12px;
+  height: 39px;
+  width: 100%;
+}
+
+.mdc-tab__indicator {
+  background-color: var(--mdc-theme-primary);
+}
+
+.mdc-card__actions {
+  bottom: 0px;
+  position: absolute;
+  right: 10px;
+}
+
+.mdc-card--outlined {
+  border: 0;
+}
+
+.mdc-card__media {
+  background: var(--mdc-theme-primary);
+  color: var(--mdc-theme-on-primary);
+  height: 100px;
+}
+
+.mdc-card__media-content {
+  position: absolute;
+  top: auto;
+  right: auto;
+  bottom: 10px;
+  left: 10px;
+}
