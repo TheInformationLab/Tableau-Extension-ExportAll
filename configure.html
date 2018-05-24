@@ -6,31 +6,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Configure Export Data</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <link rel="stylesheet" href="./css/material-components-web.css">
     <link rel="stylesheet" href="./css/main.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="./js/material-components-web.js"></script>
     <script src="./js/tableau-extensions-0.latest.min.js"></script>
+    <script src="./js/func.js"></script>
     <script src="./js/configure.js"></script>
     </head>
     <body class="mdc-typography">
       <nav id="basic-tab-bar" class="mdc-tab-bar">
-        <a class="mdc-tab mdc-tab--active" href="#one">Select Sheets
+        <a class="mdc-tab mdc-tab--active" id="configure">Select Sheets
         <span class="mdc-tab__indicator"></span></a>
-        <a class="mdc-tab" href="#two">Select Columns
+        <a class="mdc-tab" id="columns">Select Columns
         <span class="mdc-tab__indicator"></span></a>
-        <a class="mdc-tab" href="#three">About
+        <a class="mdc-tab" id="options">Options
         <span class="mdc-tab__indicator"></span></a>
       </nav>
       <div class="mdc-card mdc-card--outlined configure-card">
         <div class="card-content">
-          <ul class="mdc-list" id="Sheets">
+          <ul class="mdc-list" id="sheetsList">
           </ul>
         </div>
         <div class="mdc-card__actions mdc-card__actions--full-bleed">
           <div class="mdc-card__action-buttons">
-            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-theme--primary mdc-button--raised" style="color: #fff !important" id="saveBtn">Save</button>
-            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-theme--secondary" id="cancelBtn">Cancel</button>
+            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-theme--secondary resetBtn">Reset</button>
+          </div>
+        </div>
+      </div>
+      <div class="mdc-card mdc-card--outlined columns-card" style="display: none;padding-top: 9px;" >
+        <div class="card-content" id="columnsList">
+          <div style="padding-left: 20px; margin-top: 10px;">No Sheets Selected</div>
+        </div>
+        <div class="mdc-card__actions mdc-card__actions--full-bleed">
+          <div class="mdc-card__action-buttons">
+            <button class="mdc-button mdc-card__action mdc-card__action--button resetBtn">Reset</button>
+          </div>
+        </div>
+      </div>
+      <div class="mdc-card mdc-card--outlined options-card" style="display: none;padding-left: 20px;">
+        <div class="card-content">
+          <h4 style="margin-bottom:0px;">Settings</h4>
+          <div class="mdc-text-field">
+            <input type="text" id="button-label" class="mdc-text-field__input">
+            <label class="mdc-floating-label" for="button-label">Custom Button Label</label>
+            <div class="mdc-line-ripple"></div>
+          </div>
+          <div class='about'>
+            <h4>About Export Summary Data to Excel</h4>
+            <p>Created by Craig Bloodworth</p>
+            <img src="img/logo.png" style="width: 250px;"/>
+          </div>
+        </div>
+        <div class="mdc-card__actions mdc-card__actions--full-bleed">
+          <div class="mdc-card__action-buttons">
           </div>
         </div>
       </div>
