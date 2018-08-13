@@ -27,15 +27,17 @@ $(document).ready(function () {
 
 function addTabs(meta, callback) {
   $('#basic-tab-bar').html('');
+  var tabInd = 0;
   for (var i = 0; i < meta.length; i++) {
     var tab = '';
     if (meta[i].selected) {
-      if (i == 0) {
-        tab = '<a class="mdc-tab mdc-tab--active" id="'+i+'" data-name="'+meta[i].sheetName+'">'+meta[i].sheetName+'<span class="mdc-tab__indicator"></span>';
+      if (tabInd == 0) {
+        tab = '<a class="mdc-tab mdc-tab--active" id="'+tabInd+'" data-name="'+meta[i].sheetName+'">'+meta[i].sheetName+'<span class="mdc-tab__indicator"></span>';
       } else {
-        tab = '<a class="mdc-tab" id="'+i+'">'+meta[i].sheetName+'<span class="mdc-tab__indicator"></span>';
+        tab = '<a class="mdc-tab" id="'+tabInd+'">'+meta[i].sheetName+'<span class="mdc-tab__indicator"></span>';
       }
       $('#basic-tab-bar').append(tab);
+      tabInd = tabInd + 1;
     }
   }
   callback();
