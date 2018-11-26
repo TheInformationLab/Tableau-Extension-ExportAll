@@ -85,8 +85,8 @@ function exportToWindow() {
 function exportToExcel() {
   func.getMeta(function(meta) {
     console.log("Got Meta", meta);
-    func.saveSettings(meta, function(newSettings) {
-      console.log("Saved settings", newSettings);
+    // func.saveSettings(meta, function(newSettings) {
+      // console.log("Saved settings", newSettings);
       var worksheets = tableau.extensions.dashboardContent.dashboard.worksheets;
       var wb = XLSX.utils.book_new();
       var totalSheets = sheetCount = 0;
@@ -125,7 +125,7 @@ function exportToExcel() {
           });
         }
       }
-    });
+    // });
   })
 }
 
