@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import ExportBtn from './ExportBtn/ExportBtn';
 import { initializeMeta, saveSettings, setSettings, exportToExcel } from '../func/func';
+import compareVersions from 'compare-versions';
 
 // Declare this so our linter knows that tableau is a global object
 /* global tableau */
@@ -120,8 +121,13 @@ function Extension (props) {
     if (tableau.extensions.environment.context === "server") {
       exportToExcel(props.meta, 'server', props.filename);
     } else {
-      desktopExportHandler ()
-      //exportToExcel(props.meta, 'server');
+			console.log('[Extension.js] Tableau Version', tableau.extensions.environment.tableauVersion);
+      if (compareVersions.compare(tableau.extensions.environment.tableauVersion, '2019.4.0', '>=') ) {
+				exportToExcel(props.meta, 'desktop', props.filename);
+			} else {
+				desktopExportHandler ();
+			}
+
     }
   }
 

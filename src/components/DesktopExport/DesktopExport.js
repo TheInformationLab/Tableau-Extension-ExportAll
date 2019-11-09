@@ -57,9 +57,8 @@ Thanks so much for your time and helping to build an amazing product!`;
       <Grid item>
         <Typography component="div" style={{padding: 20}}>
           <p>Hi There!</p>
-          <p>Wouldn't it be amazing for your Excel file to be downloading right now? Trouble is you're using Tableau Desktop and the extensibility team haven't enabled the downloads API for the built-in browser that extensions use. If you <b>publish your awesome dashboard to Tableau Server</b> and use the Export All button in your regular browser, it will work just fine! Even IE11 :-)</p>
-          <p>If, like me, you think that Tableau should enable downloads in Desktop then please send your request to Michael Kovner (<a href={hrefEncoded}>click this to get a pre-written email</a>).</p>
-          <p>Thanks for your help!</p>
+          <p>It looks like you're trying to create the Excel file using a desktop version earlier than 2019.4. Unfortunately you {"can't"} as the download function is disabled, however there are two solutions. Either publish your dashboard to Server where the Excel file will download as expected, or upgrade your copy of Desktop to 2019.4 or greater.</p>
+          <p>To those who've previously emailed Tableau to request they enable the download feature...we did it!! Thank you so much for taking the time to present the case, I {"can't"} believe how many emails you sent. {"I'm"} humbled.</p>
           <p>Craig</p>
         </Typography>
       </Grid>
