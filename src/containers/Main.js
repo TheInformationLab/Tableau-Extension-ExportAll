@@ -100,7 +100,7 @@ class Main extends Component {
 
   render() {
     return (
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <div>
           <Route path="/" render={this.renderExtension} exact />
           <Route path="/configure" render={this.renderConfigure} exact />
