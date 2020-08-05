@@ -21,10 +21,9 @@ const useStyles = makeStyles(theme => ({
   },
   label: {
     display: 'block',
-    fontSize: 10,
-    lineHeight: '10px',
+    fontSize: 12,
+    lineHeight: '21px',
     order: 0,
-    marginBottom: 3,
   },
   group: {
     color: 'rgba(0, 0, 0, 0.56)',
@@ -32,9 +31,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     fontFamily: 'Benton Sans, Arial, Helvetica, sans-serif',
     position: 'relative',
-  },
-  stepper: {
-    marginBottom: 13
   },
   strikeThrough: {
     textDecoration: 'line-through',

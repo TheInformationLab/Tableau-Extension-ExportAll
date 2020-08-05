@@ -1,9 +1,9 @@
 import React from 'react';
 import { Checkbox, TextField, Stepper } from '@tableau/tableau-ui';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import MuiAccordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,10 +20,9 @@ const useStyles = makeStyles(theme => ({
   },
   label: {
     display: 'block',
-    fontSize: 10,
-    lineHeight: '10px',
-    order: 0,
-    marginBottom: 3,
+    fontSize: 12,
+    lineHeight: '21px',
+    order: 0
   },
   group: {
     color: 'rgba(0, 0, 0, 0.56)',
@@ -32,9 +31,6 @@ const useStyles = makeStyles(theme => ({
     fontFamily: 'Benton Sans, Arial, Helvetica, sans-serif',
     position: 'relative',
   },
-  stepper: {
-    marginBottom: 13
-  },
   strikeThrough: {
     textDecoration: 'line-through',
     marginRight: 5,
@@ -42,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ExpansionPanel = withStyles({
+const Accordion = withStyles({
   root: {
     boxShadow: 'none',
     '&:not(:last-child)': {
@@ -56,7 +52,7 @@ const ExpansionPanel = withStyles({
     },
   },
   expanded: {},
-})(MuiExpansionPanel);
+})(MuiAccordion);
 
 function Sheet(props) {
 
@@ -66,7 +62,7 @@ function Sheet(props) {
     label: 'Rename',
     onChange: e => props.changeName(e.target.value),
     onClear: () => {
-      props.changeName(null);
+      props.changeName(null); 
     },
     placeholder: props.name || 'Override Export Tab Name',
     style: { width: 200 },
@@ -89,16 +85,16 @@ function Sheet(props) {
 
   return (
     <div className={classes.root}>
-      <ExpansionPanel square expanded={props.selected}>
-        <ExpansionPanelSummary
+      <Accordion square expanded={props.selected}>
+        <AccordionSummary
           aria-controls="panel1c-content"
           id="panel1c-header"
         >
           <div>
             <Checkbox checked={props.selected} onChange={props.select}>{renderSheetName(props.name, props.rename)}</Checkbox>
           </div>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails className={classes.details}>
+        </AccordionSummary>
+        <AccordionDetails className={classes.details}>
           <div className={classes.column}>
             <TextField {...inputProps} />
           </div>
@@ -108,8 +104,8 @@ function Sheet(props) {
               <Stepper min={1} max={props.sheets.length} step={1} pageSteps={1} value={props.id + 1} onValueChange={value => props.changeOrder(value)} className={classes.stepper} />
             </div>
           </div>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+        </AccordionDetails>
+      </Accordion>
     </div>
   );
 
