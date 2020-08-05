@@ -154,6 +154,8 @@ const exportToExcel = (meta, env, filename) => new Promise((resolve, reject) => 
   });
 });
 
+
+
 // krisd: move excel creation to caller (to support extra export to methodss)
 // callback receives a blob to save or transfer
 const buildExcelBlob = (meta) => new Promise((resolve, reject) => {
@@ -238,32 +240,35 @@ const decodeRow = (columns, row) => new Promise((resolve, reject) => {
   let meta = {};
   for (let j = 0; j < columns.length; j++) {
     if (columns[j].selected) {
-      //meta[columns[j].fieldName] = thisRow[j].formattedValue;
-
       // krisd: let's assign the sheetjs type according to the summary data column type
       let dtype = undefined;
       let dval = undefined;
-      switch (columns[j]._dataType) {
-        case 'int':
-        case 'float':
-          dtype = 'n';
-          dval = Number(row[j].value);  // let nums be raw w/o formatting
-          if (isNaN(dval)) dval = row[j].formattedValue;  // protect in case issue
-          break;
-        case 'date':
-        case 'date-time':
-          dtype = 's';
-          dval = row[j].formattedValue;
-          break;
-        case 'bool':
-          dtype = 'b';
-          dval = row[j].value;
-          break;
-        default:
-          dtype = 's';
-          dval = row[j].formattedValue;
+      // console.log('[func.js] Row', row[j]);
+      if (row[j].value === '%null%') {
+        dtype = 'z';
+        dval = null;
+      } else {
+        switch (columns[j]._dataType) {
+          case 'int':
+          case 'float':
+            dtype = 'n';
+            dval = Number(row[j].value);  // let nums be raw w/o formatting
+            if (isNaN(dval)) dval = row[j].formattedValue;  // protect in case issue
+            break;
+          case 'date':
+          case 'date-time':
+            dtype = 's';
+            dval = row[j].formattedValue;
+            break;
+          case 'bool':
+            dtype = 'b';
+            dval = row[j].value;
+            break;
+          default:
+            dtype = 's';
+            dval = row[j].formattedValue;
+        }
       }
-
       let o = {v:dval, t:dtype};
       meta[columns[j].outputName] = o;
     }
