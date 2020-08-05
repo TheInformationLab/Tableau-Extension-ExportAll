@@ -172,7 +172,10 @@ function Configure(props) {
 
   function resetSettingsHandler() {
     console.log('[Configure.js] resetSettingsHandler - Reset Settings');
-    props.resetSettings();
+    initializeMeta()
+      .then(meta => {
+        props.updateMeta(meta);
+      });
   }
 
   return (
