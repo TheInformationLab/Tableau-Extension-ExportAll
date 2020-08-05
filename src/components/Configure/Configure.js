@@ -4,7 +4,7 @@ import SelectSheets from './SelectSheets/SelectSheets';
 import SelectColumns from './SelectColumns/SelectColumns';
 import ActionButtons from './ActionButtons/ActionButtons';
 import ConfigureTab from './ConfigureTab/ConfigureTab';
-import { saveSettings, setSettings } from '../func/func';
+import { saveSettings, setSettings, initializeMeta, revalidateMeta } from '../func/func';
 import logo from './logo.svg';
 import './Configure.css';
 
@@ -39,8 +39,12 @@ function Configure(props) {
       let sheetSettings = tableau.extensions.settings.get('selectedSheets');
 
       if (sheetSettings && sheetSettings != null) {
-        console.log('[Configure.js] Existing Sheet Settings Found', sheetSettings);
-        props.updateMeta(JSON.parse(sheetSettings));
+        const existingSettings = JSON.parse(sheetSettings);
+        console.log('[Configure.js] Existing Sheet Settings Found', existingSettings);
+        revalidateMeta(existingSettings)
+          .then(meta => {
+            props.updateMeta(meta);
+          });
       }
 
       let labelSettings = tableau.extensions.settings.get('buttonLabel');

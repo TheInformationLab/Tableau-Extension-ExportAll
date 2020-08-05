@@ -74,7 +74,7 @@ const initializeMeta = () => new Promise((resolve, reject) => {
   console.log('[func.js] Initialise Meta');
   var promises = [];
   const worksheets = tableau.extensions.dashboardContent._dashboard.worksheets;
-
+  console.log('[func.js] Worksheets in dashboard', worksheets);
   var meta = worksheets.map(worksheet => {
     var sheet = worksheet;
     var item = {};
@@ -84,6 +84,46 @@ const initializeMeta = () => new Promise((resolve, reject) => {
     item.customCols = false;
     promises.push(getSheetColumns(sheet, null, false));
     return item;
+  });
+
+  console.log(`[func.js] Found ${meta.length} sheets`, meta);
+
+  Promise.all(promises).then((sheetArr) => {
+    for (var i = 0; i < sheetArr.length; i++) {
+      var sheetMeta = meta[i];
+      sheetMeta.columns = sheetArr[i];
+      meta[i] = sheetMeta;
+      console.log(`[func.js] Added ${sheetArr[i].length} columns to ${sheetMeta.sheetName}`, meta);
+    }
+    console.log(`[func.js] Meta initialised`, meta);
+    resolve(meta);
+  });
+});
+
+const revalidateMeta = (existing) => new Promise((resolve, reject) => {
+  console.log('[func.js] Revalidate Meta', existing);
+  var promises = [];
+  const worksheets = tableau.extensions.dashboardContent._dashboard.worksheets;
+  console.log('[func.js] Worksheets in dashboard', worksheets);
+  var meta = worksheets.map(worksheet => {
+    var sheet = worksheet;
+    const sheetIdx = existing.findIndex((e) => {
+      return e.sheetName === sheet.name;
+    });
+    if (sheetIdx > -1) {
+      promises.push(getSheetColumns(sheet, existing[sheetIdx].columns, true));
+      existing[sheetIdx].existed = true;
+      return existing[sheetIdx];
+    } else {
+      var item = {};
+      item.sheetName = sheet.name;
+      item.selected = false;
+      item.changeName = null;
+      item.customCols = false;
+      item.existed = false;
+      promises.push(getSheetColumns(sheet, null, false));
+      return item;
+    }
   });
 
   console.log(`[func.js] Found ${meta.length} sheets`, meta);
@@ -235,6 +275,7 @@ const decodeRow = (columns, row) => new Promise((resolve, reject) => {
 
 export {
   initializeMeta,
+  revalidateMeta,
   saveSettings,
   setSettings,
   exportToExcel,

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import ExportBtn from './ExportBtn/ExportBtn';
-import { initializeMeta, saveSettings, setSettings, exportToExcel } from '../func/func';
+import { initializeMeta, revalidateMeta, saveSettings, setSettings, exportToExcel } from '../func/func';
 import compareVersions from 'compare-versions';
 
 // Declare this so our linter knows that tableau is a global object
@@ -21,9 +21,13 @@ function Extension (props) {
       let sheetSettings = tableau.extensions.settings.get('selectedSheets');
 
       if (sheetSettings && sheetSettings != null) {
-        console.log('[Extension.js] Existing Sheet Settings Found', JSON.parse(sheetSettings));
-        props.updateMeta(JSON.parse(sheetSettings));
-        props.disableButton(false);
+        const existingSettings = JSON.parse(sheetSettings);
+        console.log('[Extension.js] Existing Sheet Settings Found', existingSettings);
+        revalidateMeta(existingSettings)
+          .then(meta => {
+            props.updateMeta(meta);
+            props.disableButton(false);
+          });
       } else {
         console.log('[Extension.js] Can\'t find existing sheet settings');
         initializeMeta()
@@ -66,9 +70,13 @@ function Extension (props) {
     let sheetSettings = tableau.extensions.settings.get('selectedSheets');
 
     if (sheetSettings && sheetSettings != null) {
-      console.log('[Extension.js] refreshSettings Existing Sheet Settings Found. Refreshing', JSON.parse(sheetSettings));
-      props.updateMeta(JSON.parse(sheetSettings));
-      props.disableButton(false);
+      const existingSettings = JSON.parse(sheetSettings);
+      console.log('[Extension.js] refreshSettings Existing Sheet Settings Found. Refreshing', existingSettings);
+      revalidateMeta(existingSettings)
+        .then(meta => {
+          props.updateMeta(meta);
+          props.disableButton(false);
+        });
     }
 
     let labelSettings = tableau.extensions.settings.get('buttonLabel');
@@ -118,17 +126,22 @@ function Extension (props) {
   }
 
   function clickExportHandler() {
-    if (tableau.extensions.environment.context === "server") {
-      exportToExcel(props.meta, 'server', props.filename);
-    } else {
-			console.log('[Extension.js] Tableau Version', tableau.extensions.environment.tableauVersion);
-      if (compareVersions.compare(tableau.extensions.environment.tableauVersion, '2019.4.0', '>=') ) {
-				exportToExcel(props.meta, 'desktop', props.filename);
-			} else {
-				desktopExportHandler ();
-			}
-
-    }
+    let sheetSettings = tableau.extensions.settings.get('selectedSheets');
+    const existingSettings = JSON.parse(sheetSettings);
+    revalidateMeta(existingSettings)
+      .then(meta => {
+        if (tableau.extensions.environment.context === "server") {
+          exportToExcel(props.meta, 'server', props.filename);
+        } else {
+          console.log('[Extension.js] Tableau Version', tableau.extensions.environment.tableauVersion);
+          if (compareVersions.compare(tableau.extensions.environment.tableauVersion, '2019.4.0', '>=') ) {
+            exportToExcel(props.meta, 'desktop', props.filename);
+          } else {
+            desktopExportHandler ();
+          }
+    
+        }
+      });
   }
 
   function desktopExportHandler () {
