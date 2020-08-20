@@ -102,14 +102,10 @@ function Extension (props) {
     }
   }
 
-  function configure (meta) {
-    let payload = '';
-    if (meta) {
-      payload = JSON.stringify(meta);
-    }
-    console.log('[Extension.js] configure Sending payload', payload);
+  function configure () {
+    console.log('[Extension.js] Opening configure popup');
     const popupUrl = `${window.location.origin}/configure`;
-    tableau.extensions.ui.displayDialogAsync(popupUrl, payload, { height: 500, width: 500 }).then((closePayload) => {
+    tableau.extensions.ui.displayDialogAsync(popupUrl, null, { height: 500, width: 500 }).then((closePayload) => {
       refreshSettings();
       console.log('[Extension.js] Config window closed', props)
     }).catch((error) => {
@@ -117,7 +113,6 @@ function Extension (props) {
         case tableau.ErrorCodes.DialogClosedByUser:
           console.log('[Extension.js] Dialog was closed by user');
           refreshSettings();
-          console.log('[Extension.js] Config window closed', props);
           break;
         default:
           console.error('[Extension.js]', error.message);
