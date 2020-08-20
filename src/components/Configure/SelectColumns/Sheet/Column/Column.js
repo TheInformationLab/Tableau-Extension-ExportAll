@@ -1,9 +1,9 @@
 import React from 'react';
 import { Checkbox, TextField, Stepper } from '@tableau/tableau-ui';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import MuiAccordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const useStyles = makeStyles(theme => ({
@@ -53,7 +53,7 @@ const ExpansionPanel = withStyles({
     },
   },
   expanded: {},
-})(MuiExpansionPanel);
+})(MuiAccordion);
 
 function Column(props) {
 
@@ -87,7 +87,7 @@ function Column(props) {
   return (
     <div className={classes.root}>
       <ExpansionPanel square>
-        <ExpansionPanelSummary
+        <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1c-content"
           id="panel1c-header"
@@ -95,8 +95,8 @@ function Column(props) {
           <div>
             <Checkbox checked={props.selected} onChange={props.select}>{renderColName(props.name, props.rename)}</Checkbox>
           </div>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails className={classes.details}>
+        </AccordionSummary>
+        <AccordionDetails className={classes.details}>
           <div className={classes.column}>
             <TextField {...inputProps} />
           </div>
@@ -106,7 +106,7 @@ function Column(props) {
               <Stepper min={1} max={props.cols.length} step={1} pageSteps={1} value={props.id + 1} onValueChange={value => props.changeOrder(value)} className={classes.stepper} />
             </div>
           </div>
-        </ExpansionPanelDetails>
+        </AccordionDetails>
       </ExpansionPanel>
     </div>
   );
