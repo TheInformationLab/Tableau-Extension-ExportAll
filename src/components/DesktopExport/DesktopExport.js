@@ -11,15 +11,6 @@ function DesktopExport() {
 
   console.log('[DesktopExport.js] Initialise Export Screen');
 
-  const emailMessage = `Hi Michael,
-
-I'm such a huge fan of the Export All extension created by Craig Bloodworth. Trouble is my users make use of Tableau Desktop just as much as Server and I really want them to feel the same love for all things data in Excel. Please please please please enable the downloads API in extensions. It would make such a huge difference to my Tableau life. I promise I won't export all my data, just the important stuff.
-
-Thanks so much for your time and helping to build an amazing product!`;
-
-  const encodedMessage = encodeURI(emailMessage);
-  const hrefEncoded = 'mailto:mkovner@tableau.com?cc=craig.bloodworth@theinformationlab.co.uk&subject=Please%20Enable%20Downloads%20in%20Desktop%20Extensions&body=' + encodedMessage;
-
   useEffect(() => {
     console.log('[DesktopExport.js] useEffect');
     //Initialise Extension
