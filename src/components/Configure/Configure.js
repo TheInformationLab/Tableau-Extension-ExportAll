@@ -166,12 +166,21 @@ function Configure(props) {
     const style = props.style;
     const filename = props.filename;
     props.disableButton(false);
+    console.log('[Configure.js] saveSettingsHandler - sheets', meta);
     setSettings('sheets', meta)
       .then(setSettings('label', label))
       .then(setSettings('style', style))
       .then(setSettings('filename', filename))
       .then(saveSettings())
-      .then(props.changeSettings(false))
+      .then((savedSettings) => {
+        console.log('[Configure.js] Saved Settings', savedSettings);
+        props.changeSettings(false);
+        let sheetSettings = tableau.extensions.settings.get('selectedSheets');
+        if (sheetSettings && sheetSettings != null) {
+          const existingSettings = JSON.parse(sheetSettings);
+          console.log('[Configure.js] Sheet Settings Updated', existingSettings);
+        }
+      })
   }
 
   function resetSettingsHandler() {

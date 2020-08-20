@@ -7,8 +7,10 @@ import { saveAs } from 'file-saver';
 const saveSettings = () => new Promise((resolve, reject) => {
   console.log('[func.js] Saving settings');
   tableau.extensions.settings.saveAsync()
-    .then(newSavedSettings => resolve(newSavedSettings))
-    .catch(reject);
+    .then(newSavedSettings => {
+      console.log('[func.js] newSavedSettings', newSavedSettings);
+      resolve(newSavedSettings);
+    }).catch(reject);
 });
 
 const setSettings = (type, value) => new Promise((resolve, reject) => {
@@ -52,6 +54,7 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
         if (existingNames.indexOf(columns[j].fieldName) > -1) {
           var ind = existingNames.indexOf(columns[j].fieldName);
           col.selected = existingCols[ind].selected;
+          col.changeName = existingCols[ind].changeName;
         } else {
           col.selected = false;
         }

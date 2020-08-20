@@ -61,7 +61,7 @@ class Main extends Component {
   }
 
   settingsChangedHandler = (state) => {
-    console.log('[Main.js] Settings changed');
+    console.log('[Main.js] Settings changed', state);
     this.setState({settingsChanged: state});
   }
 
@@ -82,13 +82,35 @@ class Main extends Component {
 
   renderExtension = () => {
     return (
-      <Extension label={this.state.button.label} meta={this.state.meta} style={this.state.button.style} filename={this.state.filename} disabled={this.state.button.disabled} updateMeta={this.metaChangedHandler} disableButton={this.buttonStateChangedHandler} updateLabel={this.labelChangedHandler}  updateButtonStyle={this.buttonStyleChangedHandler} updateFilename={this.filenameChangedHandler} />
+      <Extension 
+        label={this.state.button.label} 
+        meta={this.state.meta} 
+        style={this.state.button.style} 
+        filename={this.state.filename} 
+        disabled={this.state.button.disabled} 
+        updateMeta={this.metaChangedHandler} 
+        disableButton={this.buttonStateChangedHandler} 
+        updateLabel={this.labelChangedHandler}  
+        updateButtonStyle={this.buttonStyleChangedHandler} 
+        updateFilename={this.filenameChangedHandler} />
     )
   }
 
   renderConfigure = () => {
     return (
-      <Configure label={this.state.button.label} meta={this.state.meta} style={this.state.button.style} filename={this.state.filename} enableSave={this.state.settingsChanged} updateMeta={this.metaChangedHandler} disableButton={this.buttonStateChangedHandler} updateLabel={this.labelChangedHandler} changeSettings={this.settingsChangedHandler} updateButtonStyle={this.buttonStyleChangedHandler} updateFilename={this.filenameChangedHandler} resetSettings={this.resetSettingsHandler}/>
+      <Configure 
+        label={this.state.button.label} 
+        meta={this.state.meta} 
+        style={this.state.button.style} 
+        filename={this.state.filename} 
+        enableSave={this.state.settingsChanged} 
+        updateMeta={this.metaChangedHandler} 
+        disableButton={this.buttonStateChangedHandler} 
+        updateLabel={this.labelChangedHandler} 
+        changeSettings={this.settingsChangedHandler} 
+        updateButtonStyle={this.buttonStyleChangedHandler} 
+        updateFilename={this.filenameChangedHandler} 
+        resetSettings={this.resetSettingsHandler}/>
     )
   }
 
