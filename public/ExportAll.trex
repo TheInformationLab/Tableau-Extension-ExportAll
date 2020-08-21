@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest manifest-version="0.1" xmlns="http://www.tableau.com/xml/extension_manifest">
-  <dashboard-extension id="com.theinformationlab.extensions.exportall" extension-version="2.2.0">
+  <dashboard-extension id="com.theinformationlab.extensions.exportall" extension-version="2.3.0">
     <default-locale>en_US</default-locale>
     <name resource-id="name"/>
     <description>Export Summary Data to Excel</description>
     <author name="Craig Bloodworth" email="craig.bloodworth@theinformationlab.co.uk" organization="The Information Lab" website="https://www.theinformationlab.co.uk"/>
     <min-api-version>1.0</min-api-version>
     <source-location>
-      <url>https://exportallextension.theinformationlab.io</url>
+      <!-- <url>http://localhost:3000</url> -->
+      <url>https://exportallextension-beta.theinformationlab.io</url>
     </source-location>
     <icon>iVBORw0KGgoAAAANSUhEUgAAAMAAAADAAgMAAAAvsoSUAAAACVBMVEUAAAAAAAAAAACDY+nAAAAAA3RSTlMA/4CE6rqMAAAAoUlEQVR4Ae3PoRUCMQDAUN65DnIj9R6SUViCfcFGpXXwSHzEv1VV/UbzU0NDQ8NqDQ0NDQ0NDQ0NDQ2viS4dTg53HQaHhw4Hh+cmggRHkOAIEhxBgiNIcAQJjiDBESQ4ggRHkOAIEHYQJDiCBEeQ4AgSHEGCI0hwBAirCBIcQYIjSHAECd4AYQ1BgiNI8E4SvEGCd2wQqmpKDQ3/NFRVfUlvNddxSLdUkP4AAAAASUVORK5CYII=</icon>
     <context-menu>
