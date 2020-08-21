@@ -4,6 +4,20 @@ import { saveAs } from 'file-saver';
 // Declare this so our linter knows that tableau is a global object
 /* global tableau */
 
+
+//array_move function from stackoverflow solution:
+//https://stackoverflow.com/questions/5306680/move-an-array-element-from-one-array-position-to-another
+function array_move(arr, old_index, new_index) {
+  if (new_index >= arr.length) {
+      var k = new_index - arr.length + 1;
+      while (k--) {
+          arr.push(undefined);
+      }
+  }
+  arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+  return arr; // for testing
+};
+
 const saveSettings = () => new Promise((resolve, reject) => {
   console.log('[func.js] Saving settings');
   tableau.extensions.settings.saveAsync()
@@ -38,9 +52,9 @@ const setSettings = (type, value) => new Promise((resolve, reject) => {
 
 const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve, reject) => {
   sheet.getSummaryDataAsync({ignoreSelection: true}).then((data) => {
-    var columns = data.columns;
-    var cols = [];
-    var existingNames = [];
+    const columns = data.columns;
+    let cols = [];
+    const existingNames = [];
     if (modified) {
       for (var j = 0; j < columns.length; j++) {
         //console.log(columns[j]);
@@ -72,6 +86,11 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
         cols.push(newCol);
       }
     }
+    // let sortedCols = [...cols];
+    cols.forEach((col, idx) => {
+      const eIdx = existingNames.indexOf(col.name);
+      cols = array_move(cols, idx, eIdx);
+    })
     resolve(cols);
   });
 });
@@ -141,6 +160,12 @@ const revalidateMeta = (existing) => new Promise((resolve, reject) => {
       meta[i] = sheetMeta;
       console.log(`[func.js] Added ${sheetArr[i].length} columns to ${sheetMeta.sheetName}`, meta);
     }
+    meta.forEach((sheet, idx) => {
+      const eIdx = existing.findIndex((e) => {
+        return e.sheetName === sheet.sheetName;
+      });
+      meta = array_move(meta, idx, eIdx);
+    })
     console.log(`[func.js] Meta initialised`, meta);
     resolve(meta);
   });
