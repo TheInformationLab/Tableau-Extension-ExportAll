@@ -52,13 +52,15 @@ const setSettings = (type, value) => new Promise((resolve, reject) => {
 
 const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve, reject) => {
   sheet.getSummaryDataAsync({ignoreSelection: true}).then((data) => {
+    console.log('[func.js] Sheet Summary Data', data);
     const columns = data.columns;
     let cols = [];
-    const existingNames = [];
+    const existingIdx = [];
     if (modified) {
       for (var j = 0; j < columns.length; j++) {
         //console.log(columns[j]);
         var col = {};
+        col.index = columns[j].index;
         col.name = columns[j].fieldName;
         col.dataType = columns[j].dataType;
         col.changeName = null;
@@ -66,10 +68,10 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
         cols.push(col);
       }
       for (var i = 0; i < existingCols.length; i++) {
-        existingNames.push(existingCols[i].name);
+        existingIdx.push(existingCols[i].index);
       }
       cols = cols.map((col, idx) => {
-        const eIdx = existingNames.indexOf(col.name);
+        const eIdx = existingIdx.indexOf(col.index);
         const ret = {...col};
         if (eIdx > -1) {
           ret.selected = existingCols[eIdx].selected;
@@ -80,7 +82,9 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
     } else {
       for (var k = 0; k < columns.length; k++) {
         var newCol = {};
+        newCol.index = columns[k].index;
         newCol.name = columns[k].fieldName;
+        newCol.dataType = columns[k].dataType;
         newCol.selected = true;
         newCol.order = k + 1;
         cols.push(newCol);
@@ -88,7 +92,7 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
     }
     // let sortedCols = [...cols];
     cols.forEach((col, idx) => {
-      const eIdx = existingNames.indexOf(col.name);
+      const eIdx = existingIdx.indexOf(col.index);
       cols = array_move(cols, idx, eIdx);
     })
     resolve(cols);
@@ -224,7 +228,7 @@ const buildExcelBlob = (meta) => new Promise((resolve, reject) => {
       });
       columns.map((column, idx) => {
         //console.log("[func.js] Finding column", column.fieldName, columnMeta);
-        const objCol = columnMeta.find(o => o.name === column.fieldName);
+        const objCol = columnMeta.find(o => o.index === column.index);
         if (objCol) {
           let col = { ...column, selected: objCol.selected  }
           col.outputName = objCol.changeName || objCol.name;

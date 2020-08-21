@@ -27,8 +27,6 @@ function Configure(props) {
   const [tab, switchTab] = useState(0);
   const tabs = [ { content: 'Select Sheets'}, { content: 'Select Columns' }, { content: 'Configure' } ];
 
-  console.log('[Configure.js] Initialise Config Screen', props);
-
   useEffect(() => {
     console.log('[Configure.js] useEffect');
     //Initialise Extension

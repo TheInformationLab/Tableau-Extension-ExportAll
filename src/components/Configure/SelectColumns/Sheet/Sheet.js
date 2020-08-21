@@ -8,7 +8,7 @@ function Sheets(props) {
       return (
         <Column
           id={index}
-          key={col.name}
+          key={col.index}
           name={col.name}
           rename={col.changeName}
           selected={col.selected}
