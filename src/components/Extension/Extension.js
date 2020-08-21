@@ -126,11 +126,11 @@ function Extension (props) {
     revalidateMeta(existingSettings)
       .then(meta => {
         if (tableau.extensions.environment.context === "server") {
-          exportToExcel(props.meta, 'server', props.filename);
+          exportToExcel(meta, 'server', props.filename);
         } else {
           console.log('[Extension.js] Tableau Version', tableau.extensions.environment.tableauVersion);
           if (compareVersions.compare(tableau.extensions.environment.tableauVersion, '2019.4.0', '>=') ) {
-            exportToExcel(props.meta, 'desktop', props.filename);
+            exportToExcel(meta, 'desktop', props.filename);
           } else {
             desktopExportHandler ();
           }

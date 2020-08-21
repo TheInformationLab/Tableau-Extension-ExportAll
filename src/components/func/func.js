@@ -42,24 +42,27 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
     var cols = [];
     var existingNames = [];
     if (modified) {
-      for (var i = 0; i < existingCols.length; i++) {
-        existingNames.push(existingCols[i].name);
-      }
       for (var j = 0; j < columns.length; j++) {
         //console.log(columns[j]);
         var col = {};
         col.name = columns[j].fieldName;
         col.dataType = columns[j].dataType;
         col.changeName = null;
-        if (existingNames.indexOf(columns[j].fieldName) > -1) {
-          var ind = existingNames.indexOf(columns[j].fieldName);
-          col.selected = existingCols[ind].selected;
-          col.changeName = existingCols[ind].changeName;
-        } else {
-          col.selected = false;
-        }
+        col.selected = false;
         cols.push(col);
       }
+      for (var i = 0; i < existingCols.length; i++) {
+        existingNames.push(existingCols[i].name);
+      }
+      cols = cols.map((col, idx) => {
+        const eIdx = existingNames.indexOf(col.name);
+        const ret = {...col};
+        if (eIdx > -1) {
+          ret.selected = existingCols[eIdx].selected;
+          ret.changeName = existingCols[eIdx].changeName;
+        }
+        return ret;
+      });
     } else {
       for (var k = 0; k < columns.length; k++) {
         var newCol = {};
