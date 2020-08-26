@@ -20,6 +20,7 @@ function array_move(arr, old_index, new_index) {
 
 const saveSettings = () => new Promise((resolve, reject) => {
   console.log('[func.js] Saving settings');
+  tableau.extensions.settings.set('metaVersion', 2);
   tableau.extensions.settings.saveAsync()
     .then(newSavedSettings => {
       console.log('[func.js] newSavedSettings', newSavedSettings);
@@ -43,8 +44,11 @@ const setSettings = (type, value) => new Promise((resolve, reject) => {
     case 'filename':
       settingKey = 'filename';
       break;
+    case 'version':
+      settingKey = 'metaVersion';
+      break;
     default:
-      settingKey = 'selectedSheets';
+      settingKey = 'unknown';
   }
   tableau.extensions.settings.set(settingKey, JSON.stringify(value));
   resolve();
@@ -53,9 +57,14 @@ const setSettings = (type, value) => new Promise((resolve, reject) => {
 const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve, reject) => {
   sheet.getSummaryDataAsync({ignoreSelection: true}).then((data) => {
     console.log('[func.js] Sheet Summary Data', data);
+    console.log('[func.js] getSheetColumns existingCols', existingCols);
     const columns = data.columns;
     let cols = [];
     const existingIdx = [];
+    let indexRef = false;
+    if (existingCols && existingCols[0] && existingCols[0].hasOwnProperty("index")) {
+      indexRef = true;
+    }
     if (modified) {
       for (var j = 0; j < columns.length; j++) {
         //console.log(columns[j]);
@@ -68,10 +77,16 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
         cols.push(col);
       }
       for (var i = 0; i < existingCols.length; i++) {
-        existingIdx.push(existingCols[i].index);
+        if (indexRef) {
+          existingIdx.push(existingCols[i].index + "." + existingCols[i].name);
+        } else {
+          existingIdx.push(existingCols[i].name);
+        }
       }
+      console.log('[func.js] getSheetColumns ExistingCols', existingIdx);
       cols = cols.map((col, idx) => {
-        const eIdx = existingIdx.indexOf(col.index);
+        console.log('[func.js] getSheetColumns Looking for col', col, col.index);
+        const eIdx = indexRef ? existingIdx.indexOf(col.index + "." + col.name) : existingIdx.indexOf(col.name);
         const ret = {...col};
         if (eIdx > -1) {
           ret.selected = existingCols[eIdx].selected;
@@ -92,7 +107,7 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
     }
     // let sortedCols = [...cols];
     cols.forEach((col, idx) => {
-      const eIdx = existingIdx.indexOf(col.index);
+      const eIdx = indexRef ? existingIdx.indexOf(col.index + "." + col.name) : existingIdx.indexOf(col.name);
       cols = array_move(cols, idx, eIdx);
     })
     resolve(cols);
@@ -130,7 +145,7 @@ const initializeMeta = () => new Promise((resolve, reject) => {
 });
 
 const revalidateMeta = (existing) => new Promise((resolve, reject) => {
-  console.log('[func.js] Revalidate Meta', existing);
+  console.log('[func.js] Revalidate Meta', JSON.stringify(existing));
   var promises = [];
   const worksheets = tableau.extensions.dashboardContent._dashboard.worksheets;
   console.log('[func.js] Worksheets in dashboard', worksheets);
@@ -170,7 +185,7 @@ const revalidateMeta = (existing) => new Promise((resolve, reject) => {
       });
       meta = array_move(meta, idx, eIdx);
     })
-    console.log(`[func.js] Meta initialised`, meta);
+    console.log(`[func.js] Meta revalidated`, JSON.stringify(meta));
     resolve(meta);
   });
 });

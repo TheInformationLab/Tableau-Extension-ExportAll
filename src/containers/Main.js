@@ -12,6 +12,7 @@ class Main extends Component {
     super(props);
     this.state = {
       meta : undefined,
+      metaVersion: 2,
       button: {
         label : 'Export All',
         style: 'outline',
@@ -30,6 +31,11 @@ class Main extends Component {
 
   componentDidMount() {
     console.log('[Main.js] componentDidMount');
+  }
+
+  metaVersionChangedHandler = (version) => {
+    console.log(`[Main.js] Updating meta version to ${version}`);
+    this.setState({metaVersion: version});
   }
 
   labelChangedHandler = (labelTxt) => {
@@ -69,6 +75,7 @@ class Main extends Component {
     console.log('[Main.js] Reset Settings');
     this.setState({
       meta : undefined,
+      metaVersion: 2,
       button: {
         label : 'Export All',
         style: 'outline',
@@ -84,10 +91,12 @@ class Main extends Component {
     return (
       <Extension 
         label={this.state.button.label} 
-        meta={this.state.meta} 
+        meta={this.state.meta}
+        metaVersion={this.state.metaVersion}
         style={this.state.button.style} 
         filename={this.state.filename} 
         disabled={this.state.button.disabled} 
+        updateMetaVersion={this.metaVersionChangedHandler}
         updateMeta={this.metaChangedHandler} 
         disableButton={this.buttonStateChangedHandler} 
         updateLabel={this.labelChangedHandler}  
