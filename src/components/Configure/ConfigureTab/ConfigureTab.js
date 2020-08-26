@@ -7,6 +7,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
+  gridItem: {
+    marginTop: 10
+  }
 }));
 
 function ConfigureTab(props) {
@@ -47,10 +50,10 @@ function ConfigureTab(props) {
         <Grid item xs={12}>
           <TextField {...labelProps} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} className={classes.gridItem}>
           <TextField {...filenameProps} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} className={classes.gridItem}>
           <React.Fragment>
             Set Button Style to:
             <DropdownSelect kind='line' value={props.style} onChange={e => props.updateButtonStyle(JSON.stringify(e.target.value))} style={styleDropDown}>
