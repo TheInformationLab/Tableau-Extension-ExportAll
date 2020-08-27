@@ -191,10 +191,14 @@ const revalidateMeta = (existing) => new Promise((resolve, reject) => {
       console.log(`[func.js] Added ${sheetArr[i].length} columns to ${sheetMeta.sheetName}`, meta);
     }
     meta.forEach((sheet, idx) => {
-      const eIdx = existing.findIndex((e) => {
-        return e.sheetName === sheet.sheetName;
-      });
-      meta = array_move(meta, idx, eIdx);
+      if (sheet && sheet.sheetName) {
+        const eIdx = existing.findIndex((e) => {
+          return e.sheetName === sheet.sheetName;
+        });
+        meta = array_move(meta, idx, eIdx);
+      } else {
+        console.log('[func.js] Sheet ordering issue. No sheet defined in idx', idx);
+      }
     })
     console.log(`[func.js] Meta revalidated`, JSON.stringify(meta));
     resolve(meta);
