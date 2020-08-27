@@ -26,3 +26,6 @@ now.json
 Tableau Extension Export All.code-workspace
 
 .vercel
+.vercel/
+.vercel/project.json
+.vercel/README.txt
