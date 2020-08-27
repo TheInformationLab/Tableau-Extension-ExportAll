@@ -83,10 +83,12 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
         cols.push(col);
       }
       for (var i = 0; i < existingCols.length; i++) {
-        if (indexRef) {
-          existingIdx.push(existingCols[i].index + "." + existingCols[i].name);
-        } else {
-          existingIdx.push(existingCols[i].name);
+        if (existingCols[i] && existingCols[i].hasOwnProperty("name")) {
+          if (indexRef) {
+            existingIdx.push(existingCols[i].index + "." + existingCols[i].name);
+          } else {
+            existingIdx.push(existingCols[i].name);
+          }
         }
       }
       console.log('[func.js] getSheetColumns ExistingCols', existingIdx);
