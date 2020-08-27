@@ -113,8 +113,13 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
     }
     // let sortedCols = [...cols];
     cols.forEach((col, idx) => {
-      const eIdx = indexRef ? existingIdx.indexOf(col.index + "." + col.name) : existingIdx.indexOf(col.name);
-      cols = array_move(cols, idx, eIdx);
+      if (col && col.name) {
+        const eIdx = indexRef ? existingIdx.indexOf(col.index + "." + col.name) : existingIdx.indexOf(col.name);
+        cols = array_move(cols, idx, eIdx);
+      } else {
+        console.log('[func.js] Cols ordering issue. No col defined in idx', idx);
+      }
+      
     })
     resolve(cols);
   });
