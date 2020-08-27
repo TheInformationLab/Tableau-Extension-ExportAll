@@ -21,11 +21,17 @@ function array_move(arr, old_index, new_index) {
 const saveSettings = () => new Promise((resolve, reject) => {
   console.log('[func.js] Saving settings');
   tableau.extensions.settings.set('metaVersion', 2);
-  tableau.extensions.settings.saveAsync()
+  console.log('[func.js] Authoring mode', tableau.extensions.environment.mode);
+  if (tableau.extensions.environment.mode === "authoring") {
+    tableau.extensions.settings.saveAsync()
     .then(newSavedSettings => {
       console.log('[func.js] newSavedSettings', newSavedSettings);
       resolve(newSavedSettings);
     }).catch(reject);
+  } else {
+    resolve();
+  }
+  
 });
 
 const setSettings = (type, value) => new Promise((resolve, reject) => {
