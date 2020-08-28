@@ -33,30 +33,9 @@ function Extension (props) {
       let sheetSettings = tableau.extensions.settings.get('selectedSheets');
 
       if (sheetSettings && sheetSettings != null) {
-        //console.log('[Extension.js] Existing Sheet Settings String', sheetSettings);
-        const existingSettings = JSON.parse(sheetSettings);
-        //console.log('[Extension.js] Existing Sheet Settings Parsed', JSON.stringify(existingSettings));
-        if (metaVersion === 1) {
-          console.log('[Extension.js] Sheet meta needs to be updated');
-          revalidateMeta(existingSettings)
-          .then(meta => {
-            props.updateMeta(meta);
-            setSettings('sheets', meta);
-            props.disableButton(false);
-            props.updateMetaVersion(latestMetaVersion);
-            setSettings('version', latestMetaVersion);
-            saveSettings();
-          });
-        } else {
-          revalidateMeta(existingSettings)
-          .then(meta => {
-            props.updateMeta(meta);
-            setSettings('sheets', meta);
-            props.disableButton(false);
-            saveSettings();
-          });
-        }
-
+        console.log('[Extension.js] Existing Sheet Settings Found', JSON.parse(sheetSettings));
+        props.updateMeta(JSON.parse(sheetSettings));
+        props.disableButton(false);
       } else {
         console.log('[Extension.js] Can\'t find existing sheet settings');
         initializeMeta()
