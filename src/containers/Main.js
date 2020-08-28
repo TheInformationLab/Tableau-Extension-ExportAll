@@ -136,8 +136,6 @@ class Main extends Component {
           <Route path="/configure" render={this.renderConfigure} exact />
           <Route path="/desktopexport" render={this.renderDesktopExport} exact />
           <Route path="/" render={this.renderExtension} exact />
-          <Route path="/exportall.html" render={this.renderExtension} exact />
-          <Route path="/index.html" render={this.renderExtension} exact />
         </div>
       </BrowserRouter>
     );
