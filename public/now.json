@@ -1,0 +1,25 @@
+{
+  "public": false,
+  "name": "Tableau-Extension-ExportAll",
+  "alias": ["exportallextension.theinformationlab.io"],
+  "version": 2,
+  "regions": ["all"],
+  "routes": [
+    { "src": "/exportall.html", "status": 301, "headers": { "Location": "/" }},
+    { "src": "/ExportAll.trex", "status": 200,
+      "headers": {
+        "Content-Type": "application/octet-stream",
+        "Content-Description": "File Transfer",
+        "Content-Disposition": "Content-Disposition"
+        }
+      },
+    { "src": "/download", "status": 301, "headers": { "Location": "/ExportAll.trex" }},
+    { "src": "^/js/(.*)", "dest": "/js/$1" },
+    { "src": "^/static/css/(.*)", "dest": "/static/css/$1" },
+    { "src": "^/static/js/(.*)", "dest": "/static/js/$1" },
+    { "src": "^/static/media/(.*)", "dest": "/static/media/$1" },
+    { "src": "^/manifest.json", "dest": "/manifest.json" },
+    { "src": "^/favicon.ico", "dest": "/favicon.ico" },
+    { "src": ".*", "dest": "/index.html" }
+  ]
+}

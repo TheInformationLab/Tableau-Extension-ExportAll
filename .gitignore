@@ -22,7 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-now.json
 Tableau Extension Export All.code-workspace
 
 .vercel
