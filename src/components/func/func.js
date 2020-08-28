@@ -262,10 +262,10 @@ const buildExcelBlob = (meta) => new Promise((resolve, reject) => {
           return null;
         }
       });
-      //console.log("[func.js] Running decodeRows", columns, data.data);
+      console.log("[func.js] Running decodeRows", columns, data.data);
       decodeDataset(columns, data.data)
         .then((rows) => {
-          //console.log("[func.js] decodeRows returned", rows);
+          console.log("[func.js] decodeRows returned", rows);
           console.log("[func.js] Header Order", headerOrder);
           var ws = XLSX.utils.json_to_sheet(rows, {header: headerOrder});
           var sheetname = tabNames[sheetCount];
@@ -303,7 +303,7 @@ const decodeRow = (columns, row) => new Promise((resolve, reject) => {
       let dtype = undefined;
       let dval = undefined;
       // console.log('[func.js] Row', row[j]);
-      if (row[j].value === '%null%' && !row[j].nativeValue) {
+      if (row[j].value === '%null%' && row[j].nativeValue === null && row[j].formattedValue === 'Null') {
         dtype = 'z';
         dval = null;
       } else {
