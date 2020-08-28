@@ -25,7 +25,7 @@ const saveSettings = () => new Promise((resolve, reject) => {
   if (tableau.extensions.environment.mode === "authoring") {
     tableau.extensions.settings.saveAsync()
     .then(newSavedSettings => {
-      console.log('[func.js] newSavedSettings', newSavedSettings);
+      //console.log('[func.js] newSavedSettings', newSavedSettings);
       resolve(newSavedSettings);
     }).catch(reject);
   } else {
@@ -62,7 +62,7 @@ const setSettings = (type, value) => new Promise((resolve, reject) => {
 
 const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve, reject) => {
   sheet.getSummaryDataAsync({ignoreSelection: true}).then((data) => {
-    console.log('[func.js] Sheet Summary Data', data);
+    //console.log('[func.js] Sheet Summary Data', data);
     console.log('[func.js] getSheetColumns existingCols', existingCols);
     const columns = data.columns;
     let cols = [];
@@ -85,7 +85,7 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
       }
       console.log('[func.js] getSheetColumns existingIdx', existingIdx);
       cols = cols.map((col, idx) => {
-        console.log('[func.js] getSheetColumns Looking for col', col);
+        //console.log('[func.js] getSheetColumns Looking for col', col);
         const eIdx = existingIdx.indexOf(col.name);
         const ret = {...col};
         if (eIdx > -1) {
@@ -123,7 +123,7 @@ const initializeMeta = () => new Promise((resolve, reject) => {
   console.log('[func.js] Initialise Meta');
   var promises = [];
   const worksheets = tableau.extensions.dashboardContent._dashboard.worksheets;
-  console.log('[func.js] Worksheets in dashboard', worksheets);
+  //console.log('[func.js] Worksheets in dashboard', worksheets);
   var meta = worksheets.map(worksheet => {
     var sheet = worksheet;
     var item = {};
@@ -144,16 +144,16 @@ const initializeMeta = () => new Promise((resolve, reject) => {
       meta[i] = sheetMeta;
       console.log(`[func.js] Added ${sheetArr[i].length} columns to ${sheetMeta.sheetName}`, meta);
     }
-    console.log(`[func.js] Meta initialised`, meta);
+    //console.log(`[func.js] Meta initialised`, meta);
     resolve(meta);
   });
 });
 
 const revalidateMeta = (existing) => new Promise((resolve, reject) => {
-  console.log('[func.js] Revalidate Meta', JSON.stringify(existing));
+  console.log('[func.js] Revalidate Meta');
   var promises = [];
   const worksheets = tableau.extensions.dashboardContent._dashboard.worksheets;
-  console.log('[func.js] Worksheets in dashboard', worksheets);
+  //console.log('[func.js] Worksheets in dashboard', worksheets);
   var meta = worksheets.map(worksheet => {
     var sheet = worksheet;
     const sheetIdx = existing.findIndex((e) => {
@@ -182,7 +182,7 @@ const revalidateMeta = (existing) => new Promise((resolve, reject) => {
       var sheetMeta = meta[i];
       sheetMeta.columns = sheetArr[i];
       meta[i] = sheetMeta;
-      console.log(`[func.js] Added ${sheetArr[i].length} columns to ${sheetMeta.sheetName}`, meta);
+      //console.log(`[func.js] Added ${sheetArr[i].length} columns to ${sheetMeta.sheetName}`, meta);
     }
     meta.forEach((sheet, idx) => {
       if (sheet && sheet.sheetName) {
@@ -237,7 +237,7 @@ const buildExcelBlob = (meta) => new Promise((resolve, reject) => {
     }
   }
   sheetList.map((metaSheet, idx) => {
-    console.log("[func.js] Finding sheet", metaSheet, worksheets);
+    //console.log("[func.js] Finding sheet", metaSheet, worksheets);
     const sheet = worksheets.find(s => s.name === metaSheet);
     // eslint-disable-next-line
     sheet.getSummaryDataAsync({ignoreSelection: true}).then((data) => {
@@ -262,10 +262,10 @@ const buildExcelBlob = (meta) => new Promise((resolve, reject) => {
           return null;
         }
       });
-      console.log("[func.js] Running decodeRows", columns, data.data);
+      //console.log("[func.js] Running decodeRows", columns, data.data);
       decodeDataset(columns, data.data)
         .then((rows) => {
-          console.log("[func.js] decodeRows returned", rows);
+          //console.log("[func.js] decodeRows returned", rows);
           console.log("[func.js] Header Order", headerOrder);
           var ws = XLSX.utils.json_to_sheet(rows, {header: headerOrder});
           var sheetname = tabNames[sheetCount];

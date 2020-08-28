@@ -14,7 +14,7 @@ function Extension (props) {
 
   useEffect(() => {
     console.log('[Extension.js] useEffect');
-    console.log('[Extension.js] Initialise Extension', props);
+    //console.log('[Extension.js] Initialise Extension', props);
     //Initialise Extension
     tableau.extensions.initializeAsync({'configure': configure}).then(() => {
 
@@ -33,9 +33,9 @@ function Extension (props) {
       let sheetSettings = tableau.extensions.settings.get('selectedSheets');
 
       if (sheetSettings && sheetSettings != null) {
-        console.log('[Extension.js] Existing Sheet Settings String', sheetSettings);
+        //console.log('[Extension.js] Existing Sheet Settings String', sheetSettings);
         const existingSettings = JSON.parse(sheetSettings);
-        console.log('[Extension.js] Existing Sheet Settings Parsed', JSON.stringify(existingSettings));
+        //console.log('[Extension.js] Existing Sheet Settings Parsed', JSON.stringify(existingSettings));
         if (metaVersion === 1) {
           console.log('[Extension.js] Sheet meta needs to be updated');
           revalidateMeta(existingSettings)
@@ -100,7 +100,7 @@ function Extension (props) {
 
     if (sheetSettings && sheetSettings != null) {
       const existingSettings = JSON.parse(sheetSettings);
-      console.log('[Extension.js] refreshSettings Existing Sheet Settings Found. Refreshing', existingSettings);
+      //console.log('[Extension.js] refreshSettings Existing Sheet Settings Found. Refreshing', existingSettings);
       revalidateMeta(existingSettings)
         .then(meta => {
           props.updateMeta(meta);
