@@ -67,10 +67,6 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
     const columns = data.columns;
     let cols = [];
     const existingIdx = [];
-    let indexRef = false;
-    if (existingCols && existingCols[0] && existingCols[0].hasOwnProperty("index")) {
-      indexRef = true;
-    }
     if (modified) {
       for (var j = 0; j < columns.length; j++) {
         //console.log(columns[j]);
@@ -84,17 +80,13 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
       }
       for (var i = 0; i < existingCols.length; i++) {
         if (existingCols[i] && existingCols[i].hasOwnProperty("name")) {
-          if (indexRef) {
-            existingIdx.push(existingCols[i].index + "." + existingCols[i].name);
-          } else {
-            existingIdx.push(existingCols[i].name);
-          }
+          existingIdx.push(existingCols[i].name);
         }
       }
-      console.log('[func.js] getSheetColumns ExistingCols', existingIdx);
+      console.log('[func.js] getSheetColumns existingIdx', existingIdx);
       cols = cols.map((col, idx) => {
-        console.log('[func.js] getSheetColumns Looking for col', col, col.index);
-        const eIdx = indexRef ? existingIdx.indexOf(col.index + "." + col.name) : existingIdx.indexOf(col.name);
+        console.log('[func.js] getSheetColumns Looking for col', col);
+        const eIdx = existingIdx.indexOf(col.name);
         const ret = {...col};
         if (eIdx > -1) {
           ret.selected = existingCols[eIdx].selected;
@@ -116,7 +108,7 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
     // let sortedCols = [...cols];
     cols.forEach((col, idx) => {
       if (col && col.name) {
-        const eIdx = indexRef ? existingIdx.indexOf(col.index + "." + col.name) : existingIdx.indexOf(col.name);
+        const eIdx = existingIdx.indexOf(col.name);
         cols = array_move(cols, idx, eIdx);
       } else {
         console.log('[func.js] Cols ordering issue. No col defined in idx', idx);
@@ -260,7 +252,7 @@ const buildExcelBlob = (meta) => new Promise((resolve, reject) => {
       });
       columns.map((column, idx) => {
         //console.log("[func.js] Finding column", column.fieldName, columnMeta);
-        const objCol = columnMeta.find(o => o.index === column.index);
+        const objCol = columnMeta.find(o => o.name === column.fieldName);
         if (objCol) {
           let col = { ...column, selected: objCol.selected  }
           col.outputName = objCol.changeName || objCol.name;
@@ -311,7 +303,7 @@ const decodeRow = (columns, row) => new Promise((resolve, reject) => {
       let dtype = undefined;
       let dval = undefined;
       // console.log('[func.js] Row', row[j]);
-      if (row[j].value === '%null%') {
+      if (row[j].value === '%null%' && !row[j].nativeValue) {
         dtype = 'z';
         dval = null;
       } else {
