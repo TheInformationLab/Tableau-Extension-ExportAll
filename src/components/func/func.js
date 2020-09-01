@@ -116,6 +116,9 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
       
     })
     resolve(cols);
+  })
+  .catch(error => {
+    console.log('[func.js] Error with getSummaryDataAsync', sheet, error);
   });
 });
 
