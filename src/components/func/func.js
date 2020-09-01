@@ -229,7 +229,7 @@ const buildExcelBlob = (meta) => new Promise((resolve, reject) => {
   const columnList = [];
   const tabNames = [];
   for (let i =0; i < meta.length; i++) {
-    if (meta[i].selected) {
+    if (meta[i] && meta[i].selected) {
       let tabName = meta[i].changeName || meta[i].sheetName;
       tabName = tabName.replace(/[*?/\\[\]]/gi, '');
       sheetList.push(meta[i].sheetName);
@@ -247,7 +247,7 @@ const buildExcelBlob = (meta) => new Promise((resolve, reject) => {
       const columnMeta = columnList[sheetCount];
       const headerOrder = [];
       columnMeta.map((colMeta, idx) => {
-        if (colMeta.selected) {
+        if (colMeta && colMeta.selected) {
           headerOrder.push(colMeta.changeName || colMeta.name);
         }
         return colMeta;
