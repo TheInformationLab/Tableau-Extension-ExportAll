@@ -130,21 +130,17 @@ function Extension (props) {
 
   function clickExportHandler() {
     let sheetSettings = tableau.extensions.settings.get('selectedSheets');
-    const existingSettings = JSON.parse(sheetSettings);
-    revalidateMeta(existingSettings)
-      .then(meta => {
-        if (tableau.extensions.environment.context === "server") {
-          exportToExcel(meta, 'server', props.filename);
-        } else {
-          console.log('[Extension.js] Tableau Version', tableau.extensions.environment.tableauVersion);
-          if (compareVersions.compare(tableau.extensions.environment.tableauVersion, '2019.4.0', '>=') ) {
-            exportToExcel(meta, 'desktop', props.filename);
-          } else {
-            desktopExportHandler ();
-          }
-    
-        }
-      });
+    const meta = JSON.parse(sheetSettings);
+    if (tableau.extensions.environment.context === "server") {
+      exportToExcel(meta, 'server', props.filename);
+    } else {
+      console.log('[Extension.js] Tableau Version', tableau.extensions.environment.tableauVersion);
+      if (compareVersions.compare(tableau.extensions.environment.tableauVersion, '2019.4.0', '>=') ) {
+        exportToExcel(meta, 'desktop', props.filename);
+      } else {
+        desktopExportHandler ();
+      }
+    }
   }
 
   function desktopExportHandler () {
