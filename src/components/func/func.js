@@ -230,8 +230,10 @@ const buildExcelBlob = (meta) => new Promise((resolve, reject) => {
   const tabNames = [];
   for (let i =0; i < meta.length; i++) {
     if (meta[i].selected) {
+      let tabName = meta[i].changeName || meta[i].sheetName;
+      tabName = tabName.replace(/[*?/\\[\]]/gi, '');
       sheetList.push(meta[i].sheetName);
-      tabNames.push(meta[i].changeName || meta[i].sheetName);
+      tabNames.push(tabName);
       columnList.push(meta[i].columns);
       totalSheets = totalSheets + 1;
     }
