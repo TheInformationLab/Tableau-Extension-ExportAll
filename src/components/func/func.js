@@ -63,7 +63,7 @@ const setSettings = (type, value) => new Promise((resolve, reject) => {
 const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve, reject) => {
   sheet.getSummaryDataAsync({ignoreSelection: true}).then((data) => {
     //console.log('[func.js] Sheet Summary Data', data);
-    console.log('[func.js] getSheetColumns existingCols', existingCols);
+    console.log('[func.js] getSheetColumns existingCols', JSON.stringify(existingCols));
     const columns = data.columns;
     let cols = [];
     const existingIdx = [];
@@ -84,6 +84,7 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
         }
       }
       console.log('[func.js] getSheetColumns existingIdx', existingIdx);
+      let maxPos = existingIdx.length;
       cols = cols.map((col, idx) => {
         //console.log('[func.js] getSheetColumns Looking for col', col);
         const eIdx = existingIdx.indexOf(col.name);
@@ -91,6 +92,10 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
         if (eIdx > -1) {
           ret.selected = existingCols[eIdx].selected;
           ret.changeName = existingCols[eIdx].changeName;
+          ret.order = eIdx;
+        } else {
+          ret.order = maxPos;
+          maxPos += 1;
         }
         return ret;
       });
@@ -105,16 +110,7 @@ const getSheetColumns = (sheet, existingCols, modified) => new Promise((resolve,
         cols.push(newCol);
       }
     }
-    // let sortedCols = [...cols];
-    cols.forEach((col, idx) => {
-      if (col && col.name) {
-        const eIdx = existingIdx.indexOf(col.name);
-        cols = array_move(cols, idx, eIdx);
-      } else {
-        console.log('[func.js] Cols ordering issue. No col defined in idx', idx);
-      }
-      
-    })
+    cols = cols.sort((a, b) => (a.order > b.order) ? 1 : -1)
     resolve(cols);
   })
   .catch(error => {
@@ -163,6 +159,7 @@ const revalidateMeta = (existing) => new Promise((resolve, reject) => {
       return e.sheetName === sheet.name;
     });
     if (sheetIdx > -1) {
+      console.log(`[func.js] Existing sheet ${sheet.name} columns`, JSON.stringify(existing[sheetIdx].columns));
       promises.push(getSheetColumns(sheet, existing[sheetIdx].columns, true));
       existing[sheetIdx].existed = true;
       return existing[sheetIdx];
@@ -181,6 +178,7 @@ const revalidateMeta = (existing) => new Promise((resolve, reject) => {
   console.log(`[func.js] Found ${meta.length} sheets`, meta);
 
   Promise.all(promises).then((sheetArr) => {
+
     for (var i = 0; i < sheetArr.length; i++) {
       var sheetMeta = meta[i];
       sheetMeta.columns = sheetArr[i];

@@ -79,9 +79,10 @@ function Extension (props) {
 
     if (sheetSettings && sheetSettings != null) {
       const existingSettings = JSON.parse(sheetSettings);
-      //console.log('[Extension.js] refreshSettings Existing Sheet Settings Found. Refreshing', existingSettings);
+      console.log('[Extension.js] refreshSettings Existing Sheet Settings Found. Refreshing', JSON.stringify(existingSettings));
       revalidateMeta(existingSettings)
         .then(meta => {
+          console.log('[Extension.js] refreshSettings settings revalidated',JSON.stringify(meta));
           props.updateMeta(meta);
           props.disableButton(false);
         });
