@@ -25,8 +25,7 @@ const logoBanner = {
 
 function Configure(props) {
   const [tab, switchTab] = useState(0);
-  const [sheetSelected, setSheetSelected ] = useState(false);
-  const tabs = [ { content: 'Select Sheets'}, { content: 'Select Columns', disabled: !sheetSelected }, { content: 'Configure' } ];
+  const tabs = [ { content: 'Select Sheets'}, { content: 'Select Columns' }, { content: 'Configure' } ];
 
   useEffect(() => {
     console.log('[Configure.js] useEffect');
