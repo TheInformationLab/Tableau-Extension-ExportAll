@@ -25,7 +25,8 @@ const logoBanner = {
 
 function Configure(props) {
   const [tab, switchTab] = useState(0);
-  const tabs = [ { content: 'Select Sheets'}, { content: 'Select Columns' }, { content: 'Configure' } ];
+  const [sheetSelected, setSheetSelected ] = useState(false);
+  const tabs = [ { content: 'Select Sheets'}, { content: 'Select Columns', disabled: !sheetSelected }, { content: 'Configure' } ];
 
   useEffect(() => {
     console.log('[Configure.js] useEffect');
@@ -38,7 +39,7 @@ function Configure(props) {
 
       if (sheetSettings && sheetSettings != null) {
         const existingSettings = JSON.parse(sheetSettings);
-        console.log('[Configure.js] Existing Sheet Settings Found', existingSettings);
+        console.log('[Configure.js] Existing Sheet Settings Found', sheetSettings);
         revalidateMeta(existingSettings)
           .then(meta => {
             props.updateMeta(meta);
@@ -115,7 +116,7 @@ function Configure(props) {
         }
     }
     arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-    return arr; // for testing
+    return arr;
   };
 
   function changeSheetOrderHandler(i, newPos) {
@@ -133,6 +134,10 @@ function Configure(props) {
       const meta = props.meta;
       const sheet = meta[sheetIdx];
       const columns = array_move(sheet.columns, colIdx, newPos - 1);
+      columns.map((col, idx) => {
+        col.order = idx;
+        return col;
+      });
       meta[sheetIdx].columns = columns;
       props.updateMeta(meta);
       props.changeSettings(true);
