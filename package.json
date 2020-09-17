@@ -1,6 +1,7 @@
 {
   "name": "tableau-extension-exportall",
   "version": "2.2.1",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
