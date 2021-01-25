@@ -2,22 +2,23 @@
   "name": "tableau-extension-exportall",
   "version": "2.2.1",
   "private": true,
+  "homepage": "..",
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/icons": "^4.9.1",
-    "@tableau/tableau-ui": "^3.0.0",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@tableau/tableau-ui": "^3.2.0",
     "compare-versions": "^3.6.0",
-    "file-saver": "^2.0.2",
-    "react": "^16.13.1",
-    "react-app-polyfill": "^1.0.6",
-    "react-dom": "^16.13.1",
+    "file-saver": "^2.0.5",
+    "react": "^17.0.1",
+    "react-app-polyfill": "^2.0.0",
+    "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
-    "xlsx": "^0.16.5"
+    "react-scripts": "4.0.1",
+    "xlsx": "^0.16.9"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && copyfiles -f ./build/index.html ./build/configure && copyfiles -f ./build/index.html ./build/desktopexport",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -38,6 +39,7 @@
     ]
   },
   "devDependencies": {
-    "typescript": "^3.9.7"
+    "copyfiles": "^2.4.1",
+    "typescript": "^4.1.3"
   }
 }
