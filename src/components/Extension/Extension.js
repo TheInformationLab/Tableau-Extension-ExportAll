@@ -18,7 +18,6 @@ function Extension (props) {
     //Initialise Extension
     tableau.extensions.initializeAsync({'configure': configure}).then(() => {
 
-      let latestMetaVersion = 2;
       let metaVersion = tableau.extensions.settings.get('metaVersion');
 
       if (metaVersion) {
