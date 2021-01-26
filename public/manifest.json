@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Export All",
+  "name": "Export Summary data from your Tableau dashboards into one single XLSX file",
   "icons": [
     {
       "src": "favicon.ico",
