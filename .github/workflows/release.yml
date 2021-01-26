@@ -14,6 +14,9 @@ jobs:
         node-version: [12.x]
     runs-on: ubuntu-latest
     steps:
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -23,13 +26,13 @@ jobs:
       - name: npm install and build
         run: |
           npm ci
-          npm run build --if-present
+          npm run release --if-present
         env:
-          CI: true
+          CI: false
       - name: Create zip archive
         uses: montudor/action-zip@v0.1.0
         with:
-          args: (cd build && zip -qq -r ./${{ github.ref }}.zip .)
+          args: zip -qq -r ${{ steps.get_version.outputs.VERSION }}.zip build #
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -47,6 +50,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./build/${{ github.ref }}.zip
-          asset_name: ${{ github.ref }}.zip
+          asset_path: ${{ steps.get_version.outputs.VERSION }}.zip
+          asset_name: ${{ steps.get_version.outputs.VERSION }}.zip
           asset_content_type: application/zip
