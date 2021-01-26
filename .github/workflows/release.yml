@@ -25,7 +25,7 @@ jobs:
           npm ci
           npm run release --if-present
         env:
-          CI: true
+          CI: false
       - name: Create zip archive
         uses: montudor/action-zip@v0.1.0
         with:
