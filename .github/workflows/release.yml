@@ -23,7 +23,7 @@ jobs:
       - name: npm install and build
         run: |
           npm ci
-          npm run build --if-present
+          npm run release --if-present
         env:
           CI: true
       - name: Create zip archive
