@@ -18,7 +18,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && copyfiles -f ./build/index.html ./build/configure && copyfiles -f ./build/index.html ./build/desktopexport",
+    "build": "react-scripts build",
+    "release": "react-scripts build && copyfiles -f ./build/index.html ./build/configure && copyfiles -f ./build/index.html ./build/desktopexport",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
