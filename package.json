@@ -19,7 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "release": "react-scripts build && copyfiles -f ./build/index.html ./build/configure && copyfiles -f ./build/index.html ./build/desktopexport",
+    "release": "react-scripts build && copyfiles -f ./build/index.html ./build/configures && copyfiles -f ./build/index.html ./build/desktopexports",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
