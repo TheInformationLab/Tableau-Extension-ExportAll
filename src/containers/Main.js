@@ -1,5 +1,5 @@
 import React, { Component }  from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Extension from '../components/Extension/Extension';
 import Configure from '../components/Configure/Configure';
 import DesktopExport from '../components/DesktopExport/DesktopExport';
@@ -131,43 +131,13 @@ class Main extends Component {
 
   render() {
     return (
-      <BrowserRouter>
-        <Switch>
-          <Route path="/configure">
-            <Configure 
-              label={this.state.button.label} 
-              meta={this.state.meta} 
-              style={this.state.button.style} 
-              filename={this.state.filename} 
-              enableSave={this.state.settingsChanged} 
-              updateMeta={this.metaChangedHandler} 
-              disableButton={this.buttonStateChangedHandler} 
-              updateLabel={this.labelChangedHandler} 
-              changeSettings={this.settingsChangedHandler} 
-              updateButtonStyle={this.buttonStyleChangedHandler} 
-              updateFilename={this.filenameChangedHandler} 
-              resetSettings={this.resetSettingsHandler}/>
-          </Route>
-          <Route path="/desktopexport">
-            <DesktopExport />
-          </Route>
-          <Route path="/">
-            <Extension 
-              label={this.state.button.label} 
-              meta={this.state.meta}
-              metaVersion={this.state.metaVersion}
-              style={this.state.button.style} 
-              filename={this.state.filename} 
-              disabled={this.state.button.disabled} 
-              updateMetaVersion={this.metaVersionChangedHandler}
-              updateMeta={this.metaChangedHandler} 
-              disableButton={this.buttonStateChangedHandler} 
-              updateLabel={this.labelChangedHandler}  
-              updateButtonStyle={this.buttonStyleChangedHandler} 
-              updateFilename={this.filenameChangedHandler} />
-          </Route>
-        </Switch>
-      </BrowserRouter>
+      <Router>
+      <Switch>
+        <Route path={window.location.hostname === "localhost" ? "/configure": "/configures"} render={this.renderConfigure} exact />
+        <Route path={window.location.hostname === "localhost" ? "/desktopexport": "/desktopexports"} render={this.renderDesktopExport} exact />
+        <Route path="/"  render={this.renderExtension} exact />
+      </Switch>
+    </Router>
     );
   }
 }

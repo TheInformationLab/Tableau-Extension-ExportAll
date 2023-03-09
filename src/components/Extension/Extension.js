@@ -112,7 +112,7 @@ function Extension (props) {
 
   function configure () {
     console.log('[Extension.js] Opening configure popup');
-    const popupUrl = `${window.location.origin}/configure`;
+    const popupUrl = window.location.hostname === "localhost" ? `${window.location.origin}/configure` : `${window.location.origin}/configures`;
     tableau.extensions.ui.displayDialogAsync(popupUrl, null, { height: 500, width: 500 }).then((closePayload) => {
       refreshSettings();
       console.log('[Extension.js] Config window closed', props)
@@ -144,7 +144,7 @@ function Extension (props) {
   }
 
   function desktopExportHandler () {
-    const popupUrl = `${window.location.origin}/desktopexport`;
+    const popupUrl =  window.location.hostname === "localhost" ? `${window.location.origin}/desktopexport` : `${window.location.origin}/desktopexports` ;
     tableau.extensions.ui.displayDialogAsync(popupUrl, '', { height: 350, width: 400 }).then((closePayload) => {
       console.log('[Extension.js] Export window closed')
     }).catch((error) => {
